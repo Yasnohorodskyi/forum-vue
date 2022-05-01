@@ -1,7 +1,7 @@
 <template>
-  <div class="container">
+  <!-- <div class="container">
     <page-home />
-  </div>
+  </div> -->
 </template>
 
 <script>
