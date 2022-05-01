@@ -1,19 +1,39 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import PageHome from '@/components/PageHome'
+import PageThreadShow from '@/components/PageThreadShow.vue'
+import PageNotFound from '@/components/PageNotFound.vue'
+import sourcrData from '@/data.json'
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    name: 'Home',
+    component: PageHome
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    path: '/thread/:id',
+    name: 'ThreadShow',
+    component: PageThreadShow,
+    props: true,
+    // route guard
+    beforeEnter (to, from, next) {
+      const threadExists = sourcrData.threads.find(thread => thread.id === to.params.id)
+      if (threadExists) {
+        return next()
+      } else {
+        next({
+          name: 'NotFound',
+          params: { pathMatch: to.path.substring(1).split('/') },
+          query: to.query,
+          hash: to.hash
+        })
+      }
+    }
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: PageNotFound
   }
 ]
 
