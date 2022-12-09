@@ -1,5 +1,5 @@
 name: End-to-end tests
-on: issue_comment
+on: pull_request
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
